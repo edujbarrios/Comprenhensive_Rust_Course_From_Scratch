@@ -2,8 +2,10 @@
 
 Refreshing rust concepts with this Google Course, done step by step.
 
-This guide will be used to mark key rust aspects.
+This guide will be used to mark key rust aspects, take it as a self develope notebook to write down concepts about **Rust**.
 
+> [!IMPORTANT]
+> **IF YOU DECIDE TO USE THIS MATERIAL TO LEARN**: This notebook doesn't contain the integrity of Google's Course, it just has the same structure of the course, but in this case all examples of code in the notebook have been crafted by myself from scratch. **The only similar content are the tasks of each course section.**
 ## Creating Projects 
 1. Creating New project
 
@@ -93,3 +95,194 @@ Below are some basic built-in types in Rust along with example literal syntax fo
 - Underscores (`_`) in numbers are **optional** and are used only to improve readability.
   - Example: `1_000` is the same as `1000` or even `10_00`.
   - `123_i64` can also be written as `123i64`.
+---
+## Arithmetic in Rust
+
+Rust supports all common arithmetic operations:
+
+| Operation | Symbol | Example            | Result |
+|-----------|--------|--------------------|--------|
+| Addition  | `+`    | `2 + 3`            | `5`    |
+| Subtraction | `-`  | `10 - 4`           | `6`    |
+| Multiplication | `*` | `3 * 7`         | `21`   |
+| Division  | `/`    | `12 / 4`           | `3`    |
+| Remainder | `%`    | `10 % 3`           | `1`    |
+
+###  Custom Arithmetic Function
+
+The following Rust function calculates the "interproduct" of three numbers using multiplication and addition:
+
+```rust
+fn interproduct(a: i32, b: i32, c: i32) -> i32 {
+    return a * b + c;
+}
+
+fn main() {
+    println!("Result: {}", interproduct(100, 100, 50));
+}
+```
+---
+## Type Inference in Rust
+
+Rust is a statically typed language, but it supports **type inference**. This means the compiler can often figure out the type of a variable based on how it’s used — so you don’t always have to write it explicitly.
+
+### Basic Example
+
+```rust
+fn main() {
+    let a = 5;        // Inferred as i32 (default integer type)
+    let b = 3.14;     // Inferred as f64 (default float type)
+    
+    println!("a: {}, b: {}", a, b);
+}
+```
+---
+## If expressions
+
+```rust
+fn main() {
+    let x = 10;
+    let size = if x < 10 { "small" } else { "big" };
+    println!("the given number is: {}", size);
+}
+```
+---
+## While, Loop and For
+
+````rust
+fn main() {
+    // ===== WHILE LOOP EXAMPLE =====
+    let mut counter = 0;
+
+    println!("Using a while loop:");
+    while counter < 5 {
+        println!("counter = {}", counter);
+        counter += 1; // increment the counter by 1
+    }
+
+    // ===== FOR LOOP EXAMPLE =====
+    println!("\nUsing a for loop:");
+
+    // This uses a range: 0..5
+    // The syntax `0..5` creates a range that starts at 0 and goes up to, but does NOT include, 5
+    // So it will loop through: 0, 1, 2, 3, 4
+    for i in 0..5 {
+        println!("i = {}", i);
+    }
+
+    // You can also use inclusive ranges with `..=`
+    // For example, 0..=5 would include the number 5
+
+    // ===== FOR LOOP OVER AN ARRAY =====
+    let numbers = [10, 20, 30, 40, 50];
+
+    println!("\nIterating over an array:");
+    // `.iter()` lets us loop through each element in the array
+    for num in numbers.iter() {
+        println!("number = {}", num);
+    }
+}
+````
+---
+
+```rust
+
+fn main() {
+    // ===== Control Flow: break, continue, and labels =====
+
+    // Labeling an outer loop using `'outer`
+    'outer: for i in 0..5 {
+        println!("Outer loop i = {}", i);
+
+        for j in 0..5 {
+            if j == 2 {
+                println!("  Continue inner loop when j = {}", j);
+                continue; // skips the rest of this inner loop iteration
+            }
+
+            if i == 3 && j == 3 {
+                println!("  Breaking out of the OUTER loop from inner loop");
+                break 'outer; // breaks out of the OUTER loop using the label
+            }
+
+            println!("  Inner loop j = {}", j);
+        }
+    }
+
+    println!("Loop finished.");
+}
+```
+
+## Blocks, Scope, Shadowing and Functions
+
+```rust
+fn main() {
+    // ===== GLOBAL SCOPE (inside main) =====
+    let x = 5;
+    println!("Initial x in main = {}", x);
+
+    // ===== START OF A NEW BLOCK (new scope) =====
+    {
+        let x = x + 1; // SHADOWS outer x
+        println!("Shadowed x inside inner block = {}", x);
+
+        let y = 10; // y only exists in this block
+        println!("y inside block = {}", y);
+    } // END OF BLOCK — y is now out of scope
+
+    // println!("y outside block = {}", y); // ❌ This would cause a compile error
+
+    println!("x in main after block = {}", x); // Still the original x = 5
+
+    // ===== CALLING A FUNCTION =====
+    let result = double(x);
+    println!("x doubled = {}", result);
+
+    // Shadowing again at function scope level
+    let x = result; // shadows previous x
+    println!("x shadowed again in main = {}", x);
+}
+
+// ===== Function definition =====
+fn double(n: i32) -> i32 {
+    println!("Inside function: received n = {}", n);
+    n * 2
+}
+```
+---
+
+# Rust Macro's
+In Rust, a macro is like a powerful code generator. It expands at compile time and can do things like printing, debugging, generating repetitive code, or handling errors, for instance `println!()` is a **Macro**
+
+```rust
+fn main() {
+    let name = "Alice";
+    let age = 30;
+
+    // `println!` is a macro used to print formatted text to the console
+    println!("Name: {}, Age: {}", name, age);
+
+    // `dbg!` is a debug macro that prints the value and the source code expression
+    let square = dbg!(age * age); // Shows: [src/main.rs:9] age * age = 900
+
+    println!("Age squared = {}", square);
+
+    // Example using `todo!()`:
+    // This macro is used to mark code that hasn't been implemented yet.
+    // If this line is executed, the program will panic with a "not yet implemented" message.
+    if age > 18 {
+        todo!("Implement adult handling logic here");
+    }
+
+    // Example using `unreachable!()`:
+    // This macro asserts that a code path should never be executed.
+    // If it runs, it panics to indicate a serious logic error.
+    let option = 1;
+
+    match option {
+        1 => println!("Option 1 selected"),
+        2 => println!("Option 2 selected"),
+        _ => unreachable!("Unexpected option value! This should never happen."),
+    }
+}
+```

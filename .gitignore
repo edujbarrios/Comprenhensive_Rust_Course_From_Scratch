@@ -35,3 +35,4 @@ benches/**/*.log
 
 # Archivos de documentación generada
 /target/doc/
+.
