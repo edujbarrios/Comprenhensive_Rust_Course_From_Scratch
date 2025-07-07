@@ -1,0 +1,37 @@
+# Archivos de compilación
+/target/
+
+# Archivos de dependencias locales
+/Cargo.lock
+**/Cargo.lock
+
+# Archivos temporales de Rust
+**/*.rs.bk
+
+# Archivos de backup del editor
+*~
+*.swp
+*.swo
+
+# Archivos de log
+*.log
+
+# Archivos de configuración de IDEs
+.idea/
+.vscode/
+*.code-workspace
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos generados por herramientas como clippy, rustfmt
+.clippy.toml
+.rustfmt.toml
+
+# Archivos de pruebas y benchmarking
+/tests/output/
+benches/**/*.log
+
+# Archivos de documentación generada
+/target/doc/
