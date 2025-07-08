@@ -379,8 +379,9 @@ fn calculate_dimensions() -> (u32, u32) {
 }
 
 ```
+----
 
-# Patterns and Destructuring
+## Patterns and Destructuring
 
 This section demonstrates how to extract values from tuples using pattern matching, it is important to note that Rust allows both manual access via indexing and cleaner destructuring using patterns.
 
@@ -428,5 +429,68 @@ fn calculate_dimensions() -> (u32, u32) {
     let width = 800;
     let height = 600;
     (width, height)
+}
+```
+---
+
+## Shared References
+
+A shared reference, allows read-only access to a value without taking ownership.
+
+```rust
+fn main() {
+    let name = String::from("Rust");
+
+    let ref1: &String = &name; // First shared reference
+    let ref2 = &name;          // Second shared reference
+
+    println!("Ref 1: {}", ref1);
+    println!("Ref 2: {}", ref2);
+}
+
+```
+----
+
+## Exclusive references
+An exclusive reference allows modifying the value it points to.
+
+```rust
+fn main() {
+    let mut point = (1, 2);
+
+    let x_coord = &mut point.0; // Mutable reference to the first value
+
+    *x_coord = 20; // Modify through the reference
+
+    println!("point: {point:?}");
+}
+```
+----
+## Slices
+A **slice** gives a view into part of a collection like an array or vector, without copying or owning the data.
+Even if you only need to read, you may think it's not useful but here are some practical uses:
+
+- Process part of a collection
+→ e.g., only sum the first 10 items of a big array.
+
+- Pass sections to functions
+→ avoids sending the whole array or vector.
+
+-  Search or analyze a subset
+→ find max, count values, match patterns, etc.
+
+- Split data into smaller views
+→ for algorithms like binary search, sorting, chunked processing.
+
+- Handle dynamic-length input
+→ especially useful when working with user input, buffers, files, etc.
+
+```rust
+fn main() {
+    let data = [10, 20, 30, 40, 50, 60];
+
+    let slice = &data[1..4]; // [20, 30, 40]
+
+    println!("Slice: {:?}", slice);
 }
 ```
