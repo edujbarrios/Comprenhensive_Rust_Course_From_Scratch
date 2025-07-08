@@ -1,6 +1,6 @@
 # Comprenhensive Rust Course From Scratch
 
-Refreshing rust concepts with this Google Course, done step by step.
+*****Refreshing rust concepts with this Google Course, done step by step.*****
 
 This guide will be used to mark key rust aspects, take it as a self develope notebook to write down concepts about **Rust**.
 
@@ -318,5 +318,115 @@ fn main() {
         Some(value) => println!("Value at index 10: {}", value),
         None => println!("No element at index 10."),
     }
+}
+```
+
+### Array iteration (using for)
+
+Arrays can be iterated using a `for` loop, which is not possible directly with tuples.
+
+```rust
+fn main() {
+    let primes = [2, 3, 5, 7, 11, 13, 17, 19];
+
+    // Iterate over each prime number in the array
+    for prime in primes {
+        // Check that prime is not divisible by any smaller number (basic primality test)
+        for i in 2..prime {
+            assert_ne!(prime % i, 0); // Asserts that `prime` is not divisible by `i`
+        }
+        println!("{} is a prime number.", prime);
+    }
+} 
+```
+
+----
+
+## Tuples 
+Tuples are fixed-size collections of values that can have different types. They're useful for grouping related data without creating a full struct. Elements in a tuple are accessed by position using dot notation (e.g., tuple.0).
+
+```rust
+fn main() {
+    // Define a tuple with different types
+    let person: (&str, i32, f64) = ("Alice", 30, 65.5);
+
+    // Accessing elements by index
+    println!("Name: {}", person.0);
+    println!("Age: {}", person.1);
+    println!("Weight: {} kg", person.2);
+
+    // Destructuring a tuple into individual variables
+    let (name, age, weight) = person;
+    println!("Destructured -> Name: {}, Age: {}, Weight: {} kg", name, age, weight);
+
+    // Nested tuples are also possible
+    let nested = ((1, 2), (3, 4));
+    println!("Nested tuple: ({}, {}) and ({}, {})", nested.0.0, nested.0.1, nested.1.0, nested.1.1);
+
+    // Using dbg! macro to print tuple with source info
+    dbg!(person);
+
+    // Tuples can be returned from functions
+    let result = calculate_dimensions();
+    println!("Width: {}, Height: {}", result.0, result.1);
+}
+
+// Function that returns a tuple
+fn calculate_dimensions() -> (u32, u32) {
+    let width = 800;
+    let height = 600;
+    (width, height)
+}
+
+```
+
+# Patterns and Destructuring
+
+This section demonstrates how to extract values from tuples using pattern matching, it is important to note that Rust allows both manual access via indexing and cleaner destructuring using patterns.
+
+```rust
+fn main() {
+    // Define a tuple with different types
+    let person: (&str, i32, f64) = ("Alice", 30, 65.5);
+
+    // Accessing elements by index
+    println!("Name: {}", person.0);
+    println!("Age: {}", person.1);
+    println!("Weight: {} kg", person.2);
+
+    // Destructuring a tuple into individual variables
+    let (name, age, weight) = person;
+    println!("Destructured -> Name: {}, Age: {}, Weight: {} kg", name, age, weight);
+
+    // Nested tuples are also possible
+    let nested = ((1, 2), (3, 4));
+    println!("Nested tuple: ({}, {}) and ({}, {})", nested.0.0, nested.0.1, nested.1.0, nested.1.1);
+
+    // Using dbg! macro to print tuple with source info
+    dbg!(person);
+
+    // Tuples can be returned from functions
+    let result = calculate_dimensions();
+    println!("Width: {}, Height: {}", result.0, result.1);
+
+    // === Patterns and Destructuring Examples ===
+
+    let pair = (10, 20);
+
+    // Manual access using dot notation
+    let left = pair.0;
+    let right = pair.1;
+    println!("Manual access -> left: {}, right: {}", left, right);
+
+    // Destructuring using a pattern
+    let (left_d, right_d) = pair;
+    println!("Destructured -> left: {}, right: {}", left_d, right_d);
+}
+
+// Function that returns a tuple
+fn calculate_dimensions() -> (u32, u32) {
+    let width = 800;
+    let height = 600;
+    (width, height)
 }
 ```
