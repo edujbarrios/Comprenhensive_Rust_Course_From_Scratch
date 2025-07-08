@@ -90,7 +90,7 @@ Below are some basic built-in types in Rust along with example literal syntax fo
 
 ---
 
-## Notes
+### Notes
 
 - Underscores (`_`) in numbers are **optional** and are used only to improve readability.
   - Example: `1_000` is the same as `1000` or even `10_00`.
@@ -185,6 +185,7 @@ fn main() {
 ````
 ---
 
+## Break, Continue, and specific labels
 ```rust
 
 fn main() {
@@ -283,6 +284,39 @@ fn main() {
         1 => println!("Option 1 selected"),
         2 => println!("Option 2 selected"),
         _ => unreachable!("Unexpected option value! This should never happen."),
+    }
+}
+```
+## Arrays
+The arrays work the same way as in other languages, an important thing to mention is that **the positions start by [ 0 ]** so the first position of the array corresponds to the [ 0 ] and the second one belongs to [ 1 ].
+```rust
+fn main() {
+    // Define an array of integers with a fixed size of 5 elements
+    let numbers = [10, 20, 30, 40, 50];
+
+    // Accessing elements by index
+    println!("First number: {}", numbers[0]); // Prints the first element (10)
+    println!("Third number: {}", numbers[2]); // Prints the third element (30)
+
+    // Getting the length of the array
+    println!("Array length: {}", numbers.len());
+
+    // Iterating through an array using a loop
+    for num in numbers.iter() {
+        println!("Number: {}", num);
+    }
+
+    // Using dbg! macro to debug-print the whole array
+    dbg!(numbers);
+
+    // Defining an array initialized with the same value
+    let zeros = [0; 5]; // Array of five zeros
+    println!("Zeros array: {:?}", zeros);
+
+    // Handling out-of-bounds access safely with `.get()`
+    match numbers.get(10) {
+        Some(value) => println!("Value at index 10: {}", value),
+        None => println!("No element at index 10."),
     }
 }
 ```
